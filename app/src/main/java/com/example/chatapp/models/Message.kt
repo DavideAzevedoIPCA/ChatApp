@@ -13,5 +13,6 @@ class Message(
 }
 
 enum class State {
-    SENDED, RECEIVED, READ
+    SENDED,
+    RECEIVED, READ
 }

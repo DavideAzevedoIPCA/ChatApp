@@ -97,5 +97,16 @@ class MainActivity : AppCompatActivity(), IAuthentication {
 
     }
 
+    fun launchLogin(view: View) {
+        val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+        ft.replace(R.id.fragment_placeholder, LoginFragment.newInstance("",""))
+        ft.commit()
+    }
+    fun launchRegister(view: View) {
+        val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+        ft.replace(R.id.fragment_placeholder, RegisterFragment.newInstance("",""))
+        ft.commit()
+    }
+
 
 }

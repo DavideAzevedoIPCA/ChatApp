@@ -2,4 +2,8 @@
 <resources>
     <string name="app_name">ChatApp</string>
     <string name="fragMenu_Mensagens">Messages</string>
+    <string name="fragLogin_login">Login</string>
+    <string name="fragRegister_register">Register</string>
+    <string name="msg_register_error">Error on register</string>
+    <string name="msg_login_error">Error on login</string>
 </resources>

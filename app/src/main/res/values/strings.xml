@@ -1,7 +1,10 @@
 <resources>
     <string name="app_name">ChatApp</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="fragMenu_User" translatable="false">User</string>
     <string name="fragMenu_Mensagens">Mensagens</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fragLogin_login">Login</string>
+    <string name="fragRegister_register">Register</string>
+    <string name="msg_register_error">Error on register</string>
+    <string name="msg_login_error">Error on login</string>
 </resources>

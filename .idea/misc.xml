@@ -8,9 +8,16 @@
         <entry key="..\:/Desktop/IPCA/MEI_DesenvolvimentoAplicacoes/2021_2022/ProgMobileAvancada/ChatApp/app/src/main/res/layout/fragment_conversations.xml" value="0.18489583333333334" />
         <entry key="..\:/Desktop/IPCA/MEI_DesenvolvimentoAplicacoes/2021_2022/ProgMobileAvancada/ChatApp/app/src/main/res/layout/fragment_register.xml" value="0.18489583333333334" />
         <entry key="..\:/Desktop/IPCA/MEI_DesenvolvimentoAplicacoes/2021_2022/ProgMobileAvancada/ChatApp/app/src/main/res/layout/fragment_user.xml" value="0.17083333333333334" />
+        <entry key="..\:/IPCA/Mestrado/Android/ChatApp/app/src/main/res/drawable/icon_chat.xml" value="0.3635" />
+        <entry key="..\:/IPCA/Mestrado/Android/ChatApp/app/src/main/res/drawable/icon_profile.xml" value="0.3635" />
+        <entry key="..\:/IPCA/Mestrado/Android/ChatApp/app/src/main/res/layout/activity_convesation.xml" value="0.24365942028985507" />
+        <entry key="..\:/IPCA/Mestrado/Android/ChatApp/app/src/main/res/layout/activity_home.xml" value="0.25" />
+        <entry key="..\:/IPCA/Mestrado/Android/ChatApp/app/src/main/res/layout/activity_main.xml" value="0.24365942028985507" />
         <entry key="..\:/IPCA/Mestrado/Android/ChatApp/app/src/main/res/layout/fragment_login.xml" value="0.2749094202898551" />
         <entry key="..\:/IPCA/Mestrado/Android/ChatApp/app/src/main/res/layout/fragment_register.xml" value="0.2749094202898551" />
         <entry key="..\:/IPCA/Mestrado/Android/ChatApp/app/src/main/res/layout/fragment_user.xml" value="0.353713768115942" />
+        <entry key="..\:/IPCA/Mestrado/Android/ChatApp/app/src/main/res/layout/menu.xml" value="0.3484375" />
+        <entry key="..\:/IPCA/Mestrado/Android/ChatApp/app/src/main/res/menu/menu.xml" value="0.3625" />
       </map>
     </option>
   </component>

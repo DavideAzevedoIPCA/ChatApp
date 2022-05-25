@@ -1,10 +1,14 @@
 package com.example.chatapp.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import com.example.chatapp.IAuthentication
+import com.example.chatapp.MainActivity
 import com.example.chatapp.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -34,8 +38,30 @@ class RegisterFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        val view: View = inflater.inflate(R.layout.fragment_register, container, false)
+        val btnRegister: Button = view.findViewById(R.id.fragRegister_register_bt)
+
+        btnRegister.setOnClickListener(View.OnClickListener {
+
+//            if (activity is MainActivity){
+//                    val editText: EditText = view.findViewById<EditText>(R.id.fragRegister_name_et)
+//                    val username = editText.text.toString()
+//                val email = view.findViewById<EditText>(R.id.fragRegister_email_et).text.toString()
+//                val password = view.findViewById<EditText>(R.id.fragRegister_password_et).text.toString()
+//                Log.d("REGISTER", "$username $email $password")
+//                (activity as MainActivity).registerUser(username, email, password)
+//            }
+
+            if (activity is IAuthentication) {
+                    Log.d("Register","frag")
+                (activity as MainActivity).registerUser(view)
+            }
+        }
+        )
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_register, container, false)
+        return view
     }
 
     companion object {

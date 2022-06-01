@@ -1,6 +1,7 @@
 package com.example.chatapp.models
 
 class Conversation(
-    val id: String,
-    val users: Array<String>) {
+    var id: String,
+    var title: String,
+    var users: List<String>) {
 }

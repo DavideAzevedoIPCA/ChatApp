@@ -1,13 +1,12 @@
 package com.example.chatapp
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
 import com.example.chatapp.fragments.LoginFragment
 import com.example.chatapp.fragments.RegisterFragment
@@ -16,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+
 
 class MainActivity : AppCompatActivity(), IAuthentication {
 
@@ -80,7 +80,17 @@ class MainActivity : AppCompatActivity(), IAuthentication {
                 if (task.isSuccessful){
                     Log.d("LOGIN", "signInWithEmail:success")
                     val user = auth.currentUser
+
+                    // Storing data into SharedPreferences
+                    val sharedPreferences = getSharedPreferences("AppSharedPref", MODE_PRIVATE)
+                    // Creating an Editor object to edit(write to the file)
+                    val myEdit = sharedPreferences.edit()
+                    // Storing the key and its value as the data fetched from edittext
+                    myEdit.putString("user_email", email);
+                    myEdit.putString("user_password", password);
+
                     val intent = Intent(this@MainActivity, HomeActivity::class.java)
+                    intent.putExtra("user",user)
                     startActivity(intent)
                 }
                 else {

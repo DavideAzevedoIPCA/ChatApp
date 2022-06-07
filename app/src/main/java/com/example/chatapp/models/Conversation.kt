@@ -1,12 +1,11 @@
 package com.example.chatapp.models
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.*
 
 @Entity(tableName = "conversations")
 data class Conversation(
-    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") val id: String,
-    @ColumnInfo(name = "title") val title: String,
-    @ColumnInfo(name = "users") val users: List<String>) {
+    @PrimaryKey @ColumnInfo(name = "id") var id: String,
+    @ColumnInfo(name = "title") var title: String,
+    @ColumnInfo(name = "users") var users: List<String?>?) {
 }
+

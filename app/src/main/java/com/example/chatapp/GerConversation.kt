@@ -26,10 +26,11 @@ class GerConversation {
     }
 
     fun getConversations(user_uid: String) : List<Conversation>{
-        var list : List<Conversation>
+        var list : List<Conversation> = emptyList()
 
-        db.collection("conversations")
+        /*db.collection("conversations")
             .whereArrayContains("users",user_uid)
-            .addSnapshotListener()
+            .addSnapshotListener()*/
+        return list
     }
 }

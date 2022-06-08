@@ -1,6 +1,11 @@
 package com.example.chatapp.models
 
-class Conversation(
-    val id: String,
-    val users: Array<String>) {
+import androidx.room.*
+
+@Entity(tableName = "conversations")
+data class Conversation(
+    @PrimaryKey @ColumnInfo(name = "id") var id: String,
+    @ColumnInfo(name = "title") var title: String,
+    @ColumnInfo(name = "users") var users: List<String?>?) {
 }
+

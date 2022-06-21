@@ -8,6 +8,9 @@
 
     <!-- TODO: Update blank fragment layout -->
     <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -18,7 +21,8 @@
             android:layout_height="40dp"
             android:src="@drawable/ic_back_arrow"
             app:icon="@drawable/ic_launcher_background"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints"
+            android:onClick="onClickBackBtn"/>
 
         <ImageButton
             android:id="@+id/fragConvInf_plus_bt"
@@ -29,7 +33,9 @@
             app:icon="@android:drawable/arrow_down_float"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints"
+
+            android:onClick="onClickPlusBtn"/>
 
 
         <ImageView
@@ -54,15 +60,31 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragConvInf_image_iv" />
 
-        <ListView
-            android:id="@+id/fragConvInf_members_lv"
+        <EditText
+            android:id="@+id/fragConvInf_add_et"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:hint="email"
+            android:textSize="18sp"
+            android:inputType="text"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragConvInf_title_tv"
+            android:visibility="gone"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/fragConvInf_members_rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:textSize="20dp"
+            android:visibility="visible"
+            app:layout_constraintTop_toBottomOf="@+id/fragConvInf_add_et"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragConvInf_title_tv" />
+            app:layout_constraintStart_toStartOf="parent" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -6,7 +6,6 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.chatapp.models.Conversation
 import com.google.firebase.firestore.FirebaseFirestore
 
-
 class GerConversation {
 
     val db = FirebaseFirestore.getInstance()
@@ -34,22 +33,49 @@ class GerConversation {
 
         db.collection("conversations")
             .whereArrayContains("users",user_uid)
-            .addSnapshotListener { values, error ->
+            .addSnapshotListener { values, e ->
+                if (e != null){
+                    Log.w("GETDATA", "Listen failed.", e)
+                    return@addSnapshotListener
+                }
 
+                if (values != null && values.documents.isNotEmpty()){
+                    Log.d("GETDATA", values.toString())
+                }
+                else {
+                    Log.d("GETDATA", "data: null")
+                }
+
+                var conversation : Conversation = Conversation("","", emptyList<String?>())
                 values?.forEach {
-                    dbSQLite.conversationDao().insertConversation(it.data.entries as Conversation)
+
+                    conversation.id = it.id
+                    conversation.title = it.data["title"].toString()
+                    conversation.users = it.data["users"] as List<String?>?
+
+                    if (!conversation.id.isNullOrEmpty())
+                    {
+                        var c1 = dbSQLite.conversationDao()
+                            .findById(conversation.id)
+
+                        if (dbSQLite.conversationDao()
+                                .findById(conversation.id) == null) {
+                            dbSQLite.conversationDao().insertConversation(conversation)
+                        } else {
+                            dbSQLite.conversationDao().updateConversation(conversation)
+                        }
+                    }
                 }
                 sendMessage()
             }
     }
-
 
     private fun sendMessage() {
         Log.d("sender", "Broadcasting message")
         val intent = Intent("custom-event-name")
         // You can also include some extra data.
         intent.putExtra("message", "This is my message!")
-        val context = MyApplication.appContext
+        val context = MyApplication.applicationContext()
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
     }
 }

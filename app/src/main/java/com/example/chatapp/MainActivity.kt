@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity(), IAuthentication {
                     val uid = task.result.user?.uid
 
                     db.collection("users").document(uid!!)
-                        .set(User (uid= uid,name = username, photo_url = ""))
+                        .set(User (uid= uid,name = username, email =email, photo_url = ""))
                         .addOnSuccessListener {
                             Log.d("REGISTER","Successfully Register ")
 

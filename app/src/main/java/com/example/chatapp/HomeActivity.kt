@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 
 class HomeActivity : AppCompatActivity() {
 
-    var user: User = User("","","")
+    var user: User = User("","","","")
     private lateinit var auth: FirebaseAuth
     val gerConversation : GerConversation = GerConversation()
     val gerMessage : GerMessage = GerMessage()
@@ -59,8 +59,8 @@ class HomeActivity : AppCompatActivity() {
             val dataMessage = dbSQLite.messageDao().getAll()
         }
 
-        var conv : Conversation = Conversation("","conversa teste", listOf(user.uid,"qweqweq"))
-        gerConversation.setConversation(conv)
+        //var conv : Conversation = Conversation("","conversa teste", listOf(user.uid,"qweqweq"))
+        //gerConversation.setConversation(conv)
     }
 
     // Our handler for received Intents. This will be called whenever an Intent
@@ -84,14 +84,15 @@ class HomeActivity : AppCompatActivity() {
             applicationContext,
             AppDatabase::class.java,
             "conversations.db")
+            .allowMainThreadQueries() //martelado, need to be fixed
             .build()
 
         gerConversation.getConversations(user.uid,dbSQLite)
 
-        val dataMessage : List<Message>? = gerMessage.getMessages(user.uid)
+/*        val dataMessage : List<Message>? = gerMessage.getMessages(user.uid)
         dataMessage?.forEach {
             dbSQLite.messageDao().insertMessage(it)
-        }
+        }*/
     }
 
     fun getConversations(){

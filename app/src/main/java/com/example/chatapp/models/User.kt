@@ -3,7 +3,8 @@ package com.example.chatapp.models
 import android.graphics.Bitmap
 
 class User(
-    val uid: String,
-    val name: String,
-    val photo_url: String) {
+    var uid: String,
+    var name: String,
+    var email: String,
+    var photo_url: String) {
 }

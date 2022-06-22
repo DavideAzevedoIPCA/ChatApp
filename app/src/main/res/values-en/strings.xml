@@ -7,4 +7,6 @@
     <string name="msg_register_error">Error on register</string>
     <string name="msg_login_error">Error on login</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fragConvInfo_user_added">Utilizador adicionado com sucesso</string>
+    <string name="fragConvInfo_user_not_found">Utilizador não encontrado</string>
 </resources>

@@ -21,9 +21,12 @@
 
         <entry key="..\:/projects/ChatApp/app/src/main/res/layout/activity_convesation.xml" value="0.358695652173913" />
         <entry key="..\:/projects/ChatApp/app/src/main/res/layout/activity_home.xml" value="0.358695652173913" />
+        <entry key="..\:/projects/ChatApp/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
         <entry key="..\:/projects/ChatApp/app/src/main/res/layout/conversation_info_item.xml" value="0.27309782608695654" />
         <entry key="..\:/projects/ChatApp/app/src/main/res/layout/fragment_conversation_info.xml" value="0.33" />
         <entry key="..\:/projects/ChatApp/app/src/main/res/layout/fragment_conversations.xml" value="0.358695652173913" />
+        <entry key="..\:/projects/ChatApp/app/src/main/res/layout/fragment_login.xml" value="0.36666666666666664" />
+        <entry key="..\:/projects/ChatApp/app/src/main/res/layout/fragment_register.xml" value="0.36666666666666664" />
         <entry key="..\:/projects/ChatApp/app/src/main/res/layout/fragment_user.xml" value="0.358695652173913" />
       </map>
     </option>

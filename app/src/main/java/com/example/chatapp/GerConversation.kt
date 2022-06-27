@@ -4,13 +4,14 @@ import android.content.Intent
 import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.chatapp.models.Conversation
+import com.example.chatapp.models.Message
+import com.example.chatapp.models.MessageState
 import com.google.firebase.firestore.FirebaseFirestore
+import java.util.*
 
 class GerConversation {
 
     val db = FirebaseFirestore.getInstance()
-
-    //var conversation : Conversation = Conversation("","", emptyArray())
 
     fun setConversation(conversation: Conversation) : Boolean{
 
@@ -29,8 +30,6 @@ class GerConversation {
 
     fun getConversations(user_uid: String, dbSQLite : AppDatabase) {
 
-        var list : MutableList<Conversation> = mutableListOf<Conversation>()
-
         db.collection("conversations")
             .whereArrayContains("users",user_uid)
             .addSnapshotListener { values, e ->
@@ -46,18 +45,24 @@ class GerConversation {
                     Log.d("GETDATA", "data: null")
                 }
 
-                var conversation : Conversation = Conversation("","", emptyList<String?>())
+                var conversation: Conversation
+
                 values?.forEach {
+
+                    conversation = Conversation()
 
                     conversation.id = it.id
                     conversation.title = it.data["title"].toString()
                     conversation.users = it.data["users"] as List<String?>?
 
+                    var objMap = it.get("lastMessage") as Map<String, Any>
+
+                    if (!objMap.isNullOrEmpty()){
+                        conversation.lastMessage?.mapMessage(objMap)
+                    }
+
                     if (!conversation.id.isNullOrEmpty())
                     {
-                        var c1 = dbSQLite.conversationDao()
-                            .findById(conversation.id)
-
                         if (dbSQLite.conversationDao()
                                 .findById(conversation.id) == null) {
                             dbSQLite.conversationDao().insertConversation(conversation)

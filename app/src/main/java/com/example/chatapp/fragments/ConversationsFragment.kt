@@ -1,10 +1,17 @@
 package com.example.chatapp.fragments
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.ImageView
+import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
+import com.example.chatapp.AppDatabase
+import com.example.chatapp.HomeActivity
 import com.example.chatapp.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -22,12 +29,15 @@ class ConversationsFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var dbSQLite : AppDatabase
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
     }
 
     override fun onCreateView(
@@ -35,7 +45,27 @@ class ConversationsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_conversations, container, false)
+        val view : View = inflater.inflate(R.layout.fragment_conversations, container, false)
+
+        if (activity is HomeActivity){
+            (activity as HomeActivity).teste(view)
+        }
+
+        val btnAddConv : ImageButton = view.findViewById(R.id.fragConversations_addConv_ib)
+        btnAddConv.setOnClickListener(View.OnClickListener{
+            if (activity is HomeActivity){
+                (activity as HomeActivity).addConv(view)
+            }
+        })
+
+        val recList : RecyclerView =  view.findViewById(R.id.fragConversations_conversations_reclist)
+        recList.setOnClickListener(View.OnClickListener {
+            if (activity is HomeActivity){
+                (activity as HomeActivity).clickConv(view)
+            }
+        })
+
+        return view
     }
 
     companion object {

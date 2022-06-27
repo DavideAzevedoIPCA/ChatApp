@@ -24,6 +24,7 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 class ConversationInfoFragment : Fragment() {
+    private lateinit var conversation : Conversation
     private var name: String? = null
     private var img: String? = null
 
@@ -35,8 +36,8 @@ class ConversationInfoFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-             name = it.getString(ARG_PARAM1)
-             img = it.getString(ARG_PARAM2)
+             //name = it.getString(ARG_PARAM1)
+             //img = it.getString(ARG_PARAM2)
         }
     }
 
@@ -93,4 +94,22 @@ class ConversationInfoFragment : Fragment() {
         return view
     }
 
+    companion object {
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+         *
+         * @param name Parameter 1.
+         * @param email Parameter 2.
+         * @return A new instance of fragment LoginFragment.
+         */
+        // TODO: Rename and change types and number of parameters
+        @JvmStatic
+        fun newInstance(conv: Conversation) =
+            ConversationInfoFragment().apply {
+                arguments = Bundle().apply {
+                    conversation = conv
+                }
+            }
+    }
 }

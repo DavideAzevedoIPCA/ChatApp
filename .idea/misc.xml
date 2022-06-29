@@ -13,10 +13,18 @@
         <entry key="..\:/Desktop/IPCA/MEI_DesenvolvimentoAplicacoes/2021_2022/ProgMobileAvancada/ChatApp/app/src/main/res/layout/fragment_register.xml" value="0.33" />
         <entry key="..\:/Desktop/IPCA/MEI_DesenvolvimentoAplicacoes/2021_2022/ProgMobileAvancada/ChatApp/app/src/main/res/layout/fragment_user.xml" value="0.17083333333333334" />
         <entry key="..\:/Desktop/IPCA/MEI_DesenvolvimentoAplicacoes/2021_2022/ProgMobileAvancada/ChatApp/app/src/main/res/layout/teste.xml" value="0.3625" />
+        <entry key="..\:/Projetos/PADM/ChatAppSeveral/app/src/main/res/layout/activity_convesation.xml" value="0.20416666666666666" />
+        <entry key="..\:/Projetos/PADM/ChatAppSeveral/app/src/main/res/layout/activity_main.xml" value="0.15989583333333332" />
+        <entry key="..\:/Projetos/PADM/ChatAppSeveral/app/src/main/res/layout/conversation_info_item.xml" value="0.11145833333333334" />
+        <entry key="..\:/Projetos/PADM/ChatAppSeveral/app/src/main/res/layout/conversation_layout_item.xml" value="0.20416666666666666" />
+        <entry key="..\:/Projetos/PADM/ChatAppSeveral/app/src/main/res/layout/fragment_conversation_info.xml" value="0.15989583333333332" />
+        <entry key="..\:/Projetos/PADM/ChatAppSeveral/app/src/main/res/layout/fragment_conversations.xml" value="0.15989583333333332" />
+        <entry key="..\:/Projetos/PADM/ChatAppSeveral/app/src/main/res/layout/message_conversation_layout_item.xml" value="0.15260416666666668" />
+        <entry key="..\:/Projetos/PADM/ChatAppSeveral/app/src/main/res/layout/message_layout_item.xml" value="0.15260416666666668" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

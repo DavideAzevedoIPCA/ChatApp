@@ -20,7 +20,7 @@ class UserConvMessageRecViewHolder(inflater: LayoutInflater, val parent : ViewGr
 
     //private var imgUri: Uri = Uri.parse("https://this-person-does-not-exist.com/img/avatar-d8b75b7d82474a0f5353797a92bfa8ab.jpg" )
 
-    fun bindData(message: Message, conversation: List<User>){
+    fun bindData(message: Message, user: User){
         //iv?.setImageURI(imgUri)
         tvText?.text = message.text
         tvDate?.text = message.sendAt?.toString()

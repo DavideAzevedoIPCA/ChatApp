@@ -7,36 +7,24 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/convLayoutItem_convPhoto_imageView"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:srcCompat="@drawable/common_google_signin_btn_icon_disabled"
-        android:layout_margin="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
     <TextView
         android:id="@+id/convLayoutItem_messageText_textView"
         android:layout_height="wrap_content"
         android:layout_width="0dp"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:layout_margin="10dp"
-        app:layout_constraintBottom_toBottomOf="@id/convLayoutItem_convPhoto_imageView"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/convLayoutItem_convPhoto_imageView"
-        app:layout_constraintTop_toTopOf="@id/convLayoutItem_convPhoto_imageView"
+        app:layout_constraintTop_toTopOf="parent"
         />
 
     <TextView
         android:id="@+id/convLayoutItem_messageDate_textView"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:textSize="15sp"
-        app:layout_constraintStart_toEndOf="@id/convLayoutItem_convPhoto_imageView"
-        app:layout_constraintTop_toBottomOf="@id/convLayoutItem_messageText_textView"
-        app:layout_constraintEnd_toEndOf="parent"
- />
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="@id/convLayoutItem_messageText_textView"
+        app:layout_constraintTop_toBottomOf="@+id/convLayoutItem_messageText_textView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

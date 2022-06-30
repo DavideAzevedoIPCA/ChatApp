@@ -7,7 +7,7 @@ import com.example.chatapp.models.Conversation
 import com.example.chatapp.models.Message
 import com.example.chatapp.models.User
 
-class UserConvMessageRecAdapter(private val mList: List<Message>, private val conversation: List<User>) : RecyclerView.Adapter<UserConvMessageRecViewHolder>(){
+class UserConvMessageRecAdapter(private var mList: MutableList<Message>, private var mListUser: MutableList<User>) : RecyclerView.Adapter<UserConvMessageRecViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserConvMessageRecViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -16,10 +16,21 @@ class UserConvMessageRecAdapter(private val mList: List<Message>, private val co
 
     override fun onBindViewHolder(holder: UserConvMessageRecViewHolder, position: Int) {
         val message : Message = mList[position]
-        holder.bindData(message, conversation)
+        val user : User = mListUser.first { user -> user.uid == message.sentBy }
+        holder.bindData(message, user)
     }
 
     override fun getItemCount(): Int {
         return mList.size
+    }
+
+    fun refreshData(list: List<Message>, listUser: List<User>){
+        this.mList.clear()
+        this.mList.addAll(list)
+
+        this.mListUser.clear()
+        this.mListUser.addAll(listUser)
+
+        notifyDataSetChanged()
     }
 }

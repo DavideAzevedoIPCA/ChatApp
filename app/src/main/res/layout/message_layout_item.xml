@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/convLayoutItem_messageText_textView"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:textSize="20sp"
+        android:layout_margin="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/convLayoutItem_messageDate_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="@id/convLayoutItem_messageText_textView"
+        app:layout_constraintTop_toBottomOf="@+id/convLayoutItem_messageText_textView" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

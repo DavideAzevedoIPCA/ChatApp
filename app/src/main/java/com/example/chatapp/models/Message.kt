@@ -6,7 +6,6 @@ import androidx.room.PrimaryKey
 import java.sql.Date
 import java.util.*
 
-
 @Entity(tableName = "messages")
 data class Message(
     @PrimaryKey @ColumnInfo(name = "id") var id : String,

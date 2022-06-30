@@ -56,20 +56,18 @@ class HomeActivity : AppCompatActivity() {
             .build()
 
         if (internetUtils.checkForInternet(this)){
+
             LocalBroadcastManager.getInstance(this)
-                .registerReceiver(mMessageReceiver, IntentFilter("custom-event-name"))
+                .registerReceiver(mMessageReceiver, IntentFilter("CONVS"))
 
             loadData() //faz loading dos dados do firestore para SQLite
         }
 
-        GlobalScope.launch {
+/*        GlobalScope.launch {
             val dataConversation = dbSQLite.conversationDao().getAll()
             val dataMessage = dbSQLite.messageDao().getAll()
-        }
+        }*/
 
-
-        //var conv : Conversation = Conversation("","conversa teste", listOf(user.uid,"qweqweq"))
-        //gerConversation.setConversation(conv)
         launchFragment(this.findViewById(android.R.id.content))
     }
 

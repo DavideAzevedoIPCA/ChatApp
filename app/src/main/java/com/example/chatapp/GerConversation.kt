@@ -6,6 +6,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.chatapp.models.Conversation
 import com.example.chatapp.models.Message
 import com.example.chatapp.models.MessageState
+import com.example.chatapp.models.User
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.*
 
@@ -31,7 +32,7 @@ class GerConversation {
     fun getConversations(user_uid: String, dbSQLite : AppDatabase) {
 
         db.collection("conversations")
-            .whereArrayContains("users",user_uid)
+            .whereArrayContains("users", user_uid)
             .addSnapshotListener { values, e ->
                 if (e != null){
                     Log.w("GETDATA", "Listen failed.", e)

@@ -1,11 +1,15 @@
 package com.example.chatapp.adapters
 
-import android.net.Uri
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.chatapp.ConversationActivity
+import com.example.chatapp.HomeActivity
 import com.example.chatapp.R
 import com.example.chatapp.models.Conversation
 
@@ -23,5 +27,21 @@ class UserConvRecViewHolder(inflater: LayoutInflater, val parent : ViewGroup) :
         //iv?.setImageURI(imgUri)
         tvTitle?.text = conversation.title
         tvText?.text = conversation.lastMessage?.text
+
+        itemView.setOnClickListener{
+            if(it.context is HomeActivity) {
+                Log.d("RECLIST", "Arrive")
+                (it.context as HomeActivity).clickConv(conversation)
+            }
+
+/*                var intent = Intent(it.context, ConversationActivity::class.java)
+                //intent.putExtra("user",auth)
+                it.context.startActivity(intent)*/
+
+        }
+
     }
+
+
+
 }

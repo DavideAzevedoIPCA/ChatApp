@@ -58,13 +58,6 @@ class ConversationsFragment : Fragment() {
             }
         })
 
-        val recList : RecyclerView =  view.findViewById(R.id.fragConversations_conversations_reclist)
-        recList.setOnClickListener(View.OnClickListener {
-            if (activity is HomeActivity){
-                (activity as HomeActivity).clickConv(view)
-            }
-        })
-
         return view
     }
 

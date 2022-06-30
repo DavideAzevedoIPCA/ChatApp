@@ -21,6 +21,7 @@ import com.example.chatapp.models.Conversation
 import com.example.chatapp.models.User
 import com.example.chatapp.utils.InternetUtils
 import com.google.firebase.auth.FirebaseAuth
+import com.google.gson.Gson
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -119,6 +120,14 @@ class HomeActivity : AppCompatActivity() {
         launchFragmentConvInfo(this.findViewById(android.R.id.content))
     }
 
-    fun clickConv(view: View) {
+    fun clickConv(conversation : Conversation) {
+        Log.d("RECLIST","clickConv.....")
+
+        val intent = Intent(this@HomeActivity, ConversationActivity::class.java)
+        intent.putExtra("conversationJSON", Gson().toJson(conversation))
+        startActivity(intent)
+
+
+
     }
 }

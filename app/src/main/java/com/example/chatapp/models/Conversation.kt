@@ -2,8 +2,6 @@ package com.example.chatapp.models
 
 
 import androidx.room.*
-import java.sql.Date
-import java.util.*
 
 @Entity(tableName = "conversations")
 data class Conversation(

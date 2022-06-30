@@ -3,6 +3,7 @@ package com.example.chatapp
 import androidx.room.TypeConverter
 import com.example.chatapp.models.Message
 import com.example.chatapp.models.MessageState
+import com.example.chatapp.models.User
 import com.google.common.reflect.TypeToken
 import com.google.gson.Gson
 import org.json.JSONArray
@@ -39,8 +40,17 @@ class Converters {
 
     @TypeConverter
     fun fromStringToMessage(value : String?) : Message? {
-        return Gson().fromJson<Message>(value, Message::class.java)
+        return Gson().fromJson(value, Message::class.java)
     }
 
+    @TypeConverter
+    fun fromUserToString(value : List<User>?) : String {
+        return Gson().toJson(value)
+    }
+
+    @TypeConverter
+    fun fromStringToUser(value : String) : User {
+        return Gson().fromJson(value, User::class.java)
+    }
 
 }

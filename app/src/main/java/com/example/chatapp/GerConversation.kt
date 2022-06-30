@@ -80,7 +80,7 @@ class GerConversation {
         Log.d("sender", "Broadcasting message")
         val intent = Intent("custom-event-name")
         // You can also include some extra data.
-        intent.putExtra("message", "This is my message!")
+        intent.putExtra("action", "GET_CONVS")
         val context = MyApplication.applicationContext()
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
     }

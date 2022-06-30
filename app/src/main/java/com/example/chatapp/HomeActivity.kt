@@ -33,7 +33,10 @@ class HomeActivity : AppCompatActivity() {
     val gerConversation : GerConversation = GerConversation()
     val gerMessage : GerMessage = GerMessage()
     private lateinit var dbSQLite : AppDatabase
+    lateinit var dataConversation : List<Conversation>
     private var  internetUtils : InternetUtils = InternetUtils()
+    lateinit var recyclerView : RecyclerView
+    lateinit var recyclerViewAdapter: UserConvRecAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +48,12 @@ class HomeActivity : AppCompatActivity() {
         Log.d("HOME", "user_uid:"+user.uid.toString())
         Log.d("HOME", "user_name:"+user.name.toString())
 
+        dbSQLite = Room.databaseBuilder(
+            applicationContext,
+            AppDatabase::class.java,
+            "conversations.db")
+            .allowMainThreadQueries() //martelado, need to be fixed
+            .build()
 
         if (internetUtils.checkForInternet(this)){
             LocalBroadcastManager.getInstance(this)
@@ -69,8 +78,13 @@ class HomeActivity : AppCompatActivity() {
     private val mMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             // Get extra data included in the Intent
-            val message = intent.getStringExtra("message")
-            Log.d("receiver", "Got message: $message")
+            val action = intent.getStringExtra("action")
+
+            if (action == "GET_CONVS"){
+                dataConversation = dbSQLite.conversationDao().getAll()
+                recyclerViewAdapter.refreshData(dataConversation)
+            }
+            Log.d("receiver", "Got message: $action")
         }
     }
 
@@ -91,12 +105,12 @@ class HomeActivity : AppCompatActivity() {
     }
 
     fun loadData() {
-        dbSQLite = Room.databaseBuilder(
+        /*dbSQLite = Room.databaseBuilder(
             applicationContext,
             AppDatabase::class.java,
             "conversations.db")
             .allowMainThreadQueries() //martelado, need to be fixed
-            .build()
+            .build()*/
 
         gerConversation.getConversations(user.uid,dbSQLite)
 
@@ -109,11 +123,13 @@ class HomeActivity : AppCompatActivity() {
     }
 
     fun teste(view: View){
-        val dataConversation = dbSQLite.conversationDao().getAll()
+        dataConversation = dbSQLite.conversationDao().getAll()
 
-        var recyclerView = view.findViewById<RecyclerView>(R.id.fragConversations_conversations_reclist)
-        recyclerView.adapter = UserConvRecAdapter(dataConversation)
+        recyclerView = view.findViewById<RecyclerView>(R.id.fragConversations_conversations_reclist)
+        recyclerViewAdapter = UserConvRecAdapter(dataConversation.toMutableList())
+        recyclerView.adapter = recyclerViewAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
+
     }
 
     fun addConv(view: View) {

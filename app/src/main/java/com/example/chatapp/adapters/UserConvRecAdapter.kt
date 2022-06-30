@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatapp.models.Conversation
 
-class UserConvRecAdapter(private val mList: List<Conversation>) : RecyclerView.Adapter<UserConvRecViewHolder>(){
+class UserConvRecAdapter(private var mList: MutableList<Conversation>) : RecyclerView.Adapter<UserConvRecViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserConvRecViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -19,5 +19,11 @@ class UserConvRecAdapter(private val mList: List<Conversation>) : RecyclerView.A
 
     override fun getItemCount(): Int {
         return mList.size
+    }
+
+    fun refreshData(item: List<Conversation>){
+        this.mList.clear()
+        this.mList.addAll(item)
+        notifyDataSetChanged()
     }
 }

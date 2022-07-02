@@ -59,11 +59,11 @@ class GerConversation {
 
                     var objMap = it.get("lastMessage") as Map<String, Any>
 
-                    if (!objMap.isNullOrEmpty()){
+                    if (objMap.isNotEmpty()){
                         conversation.lastMessage?.mapMessage(objMap)
                     }
 
-                    if (!conversation.id.isNullOrEmpty())
+                    if (conversation.id.isNotEmpty())
                     {
                         if (dbSQLite.conversationDao()
                                 .findById(conversation.id) == null) {

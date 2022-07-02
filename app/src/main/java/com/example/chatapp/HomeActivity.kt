@@ -1,9 +1,6 @@
 package com.example.chatapp
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -32,21 +29,27 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     val gerConversation : GerConversation = GerConversation()
     val gerMessage : GerMessage = GerMessage()
+    val gerUser : GerUser = GerUser()
     private lateinit var dbSQLite : AppDatabase
     lateinit var dataConversation : List<Conversation>
     private var  internetUtils : InternetUtils = InternetUtils()
     lateinit var recyclerView : RecyclerView
     lateinit var recyclerViewAdapter: UserConvRecAdapter
+    lateinit var  sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+
         auth = FirebaseAuth.getInstance()
+        sharedPreferences = getSharedPreferences("AppSharedPref", MODE_PRIVATE)
+
         user.uid = auth.currentUser!!.uid.toString()
         user.name = auth.currentUser!!.email.toString()
         Log.d("HOME", "user_uid:"+user.uid.toString())
         Log.d("HOME", "user_name:"+user.name.toString())
+
 
         dbSQLite = Room.databaseBuilder(
             applicationContext,
@@ -60,13 +63,18 @@ class HomeActivity : AppCompatActivity() {
             LocalBroadcastManager.getInstance(this)
                 .registerReceiver(mMessageReceiver, IntentFilter("CONVS"))
 
+
+            gerUser.getUser(auth.currentUser!!.uid, this)
+            //sharedPreferences.edit().putString("user_obj", Gson().toJson(user))
+
             loadData() //faz loading dos dados do firestore para SQLite
         }
+        else{
+        user = User()
+            var jsonString : String? = sharedPreferences.getString("user_obj","{}")
+            user = Gson().fromJson(sharedPreferences.getString("user_obj","{}"),User::class.java)
+        }
 
-/*        GlobalScope.launch {
-            val dataConversation = dbSQLite.conversationDao().getAll()
-            val dataMessage = dbSQLite.messageDao().getAll()
-        }*/
 
         launchFragment(this.findViewById(android.R.id.content))
     }
@@ -139,9 +147,14 @@ class HomeActivity : AppCompatActivity() {
 
         val intent = Intent(this@HomeActivity, ConversationActivity::class.java)
         intent.putExtra("conversationJSON", Gson().toJson(conversation))
+        intent.putExtra("userJSON", Gson().toJson(user))
         startActivity(intent)
 
+    }
 
-
+    fun setUserOnActivity(user : User){
+        this.user = user
+        sharedPreferences.edit().putString("user_obj",Gson().toJson(user))
+        sharedPreferences.edit().commit()
     }
 }

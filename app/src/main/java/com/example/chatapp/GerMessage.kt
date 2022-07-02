@@ -6,6 +6,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.chatapp.models.Message
 import com.example.chatapp.models.MessageDao
 import com.example.chatapp.models.MessageState
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import java.sql.Date
@@ -37,14 +38,23 @@ class GerMessage {
                 values?.forEach {
                     message = Message()
 
-                    message.id = it.id
+                    message.mapMessage(it.data)
+
+/*                    message.id = it.id
                     message.sentBy = it.data["sentBy"].toString()
-                    message.sendAt = it.data["sendAt"] as Date?
+                    message.sendAt = (it.data["sendAt"] as Timestamp).toDate()
                     message.text = it.data["text"].toString()
                     message.media_url = it.data["media_url"].toString()
                     message.state = MessageState.fromInt((it.data["state"]as Long).toInt())
-                    message.conv_uid = it.data["conv_uid"].toString()
+                    message.conv_uid = it.data["conv_uid"].toString()*/
 
+                    if (message.id.isNotEmpty()){
+                        if (dbSQLite.messageDao().findById(message.id) == null){
+                            dbSQLite.messageDao().insertMessage(message)
+                        } else{
+                            dbSQLite.messageDao().updateMessage(message)
+                        }
+                    }
                 }
                 sendMessage()
             }

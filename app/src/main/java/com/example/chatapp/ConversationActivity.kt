@@ -18,6 +18,7 @@ import com.example.chatapp.models.User
 import com.example.chatapp.utils.InternetUtils
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
+import java.lang.Exception
 
 class ConversationActivity : AppCompatActivity() {
 
@@ -26,8 +27,8 @@ class ConversationActivity : AppCompatActivity() {
     var gerMessage : GerMessage = GerMessage()
     private lateinit var dbSQLite : AppDatabase
     lateinit var recyclerView : RecyclerView
-    lateinit var dataMessage : List<Message>
-    lateinit var dataUsers : List<User>
+    var dataMessage : List<Message> = emptyList()
+    var dataUsers : List<User> = emptyList()
     private var  internetUtils : InternetUtils = InternetUtils()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,9 +36,16 @@ class ConversationActivity : AppCompatActivity() {
         setContentView(R.layout.activity_convesation)
 
         conversation = Gson().fromJson(this.intent
-            .getStringExtra("conversationJSON"),Conversation::class.java)
-        user = Gson().fromJson(this.intent
-            .getStringExtra("userJSON"),User::class.java)
+            .getStringExtra("conversationJSON"), Conversation::class.java)
+
+        try {
+            user = Gson().fromJson(this.intent
+                .getStringExtra("userJSON"), User::class.java)
+        }
+        catch(e: Exception) {
+
+        }
+
 
         dbSQLite = Room.databaseBuilder(
             applicationContext,
@@ -62,7 +70,7 @@ class ConversationActivity : AppCompatActivity() {
             val action = intent.getStringExtra("action")
 
             if (action == "GET_MSG"){
-                dataMessage = dbSQLite.messageDao().getAll()
+                dataMessage = dbSQLite.messageDao().getAllByConversation(conversation.id)
                 (recyclerView.adapter as UserConvMessageRecAdapter).refreshData(dataMessage,dataUsers)
             }
             Log.d("receiver", "Got message: $action")

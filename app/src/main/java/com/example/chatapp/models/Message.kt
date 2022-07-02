@@ -3,7 +3,7 @@ package com.example.chatapp.models
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.sql.Date
+import com.google.firebase.Timestamp
 import java.util.*
 
 @Entity(tableName = "messages")
@@ -21,7 +21,7 @@ data class Message(
     fun mapMessage(objMap : Map<String, Any>){
         this.id = objMap["id"].toString()
         this.sentBy = objMap["sentBy"].toString()
-        this.sendAt = objMap["sendAt"] as Date?
+        this.sendAt = (objMap["sendAt"] as Timestamp).toDate()
         this.text = objMap["text"].toString()
         this.media_url = objMap["media_url"].toString()
         this.state = MessageState.fromInt((objMap["state"] as Long).toInt())

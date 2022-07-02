@@ -6,7 +6,7 @@ import com.example.chatapp.models.User
 import com.google.common.reflect.TypeToken
 import com.google.gson.Gson
 import java.lang.reflect.Type
-import java.sql.Date
+import java.util.Date
 
 
 class Converters {

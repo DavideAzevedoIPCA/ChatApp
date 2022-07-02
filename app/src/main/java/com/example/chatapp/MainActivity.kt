@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 
 
 class MainActivity : AppCompatActivity(), IAuthentication {
@@ -24,6 +25,9 @@ class MainActivity : AppCompatActivity(), IAuthentication {
     private lateinit var auth: FirebaseAuth
     val db = FirebaseFirestore.getInstance()
     lateinit var  sharedPreferences: SharedPreferences
+    var username : String = ""
+    var email : String = ""
+    var password : String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,10 +42,10 @@ class MainActivity : AppCompatActivity(), IAuthentication {
         }
         else{
             // No user is signed in
-            var email : String = sharedPreferences.getString("user_email","email").toString()
-            var password : String = sharedPreferences.getString("user_password","password").toString()
+            email = sharedPreferences.getString("user_email","email").toString()
+            password = sharedPreferences.getString("user_password","password").toString()
 
-            if (!email.isNullOrEmpty()&&!password.isNullOrEmpty()){
+            if (email.isNotEmpty() && password.isNotEmpty()){
                 if(authenticateUser(email, password)){
                     launchHomeActivity()
                 }
@@ -57,9 +61,9 @@ class MainActivity : AppCompatActivity(), IAuthentication {
 
     override fun registerUser(v: View){
 
-        val username = v.findViewById<EditText>(R.id.fragRegister_name_et).text.toString()
-        val email = v.findViewById<EditText>(R.id.fragRegister_email_et).text.toString()
-        val password = v.findViewById<EditText>(R.id.fragRegister_password_et).text.toString()
+        username = v.findViewById<EditText>(R.id.fragRegister_name_et).text.toString()
+        email = v.findViewById<EditText>(R.id.fragRegister_email_et).text.toString()
+        password = v.findViewById<EditText>(R.id.fragRegister_password_et).text.toString()
 
         Log.d("REGISTER","$username $email $password")
         Log.d("REGISTER", "registerUser")
@@ -69,7 +73,7 @@ class MainActivity : AppCompatActivity(), IAuthentication {
                     val uid = task.result.user?.uid
 
                     db.collection("users").document(uid!!)
-                        .set(User (uid= uid,name = username, email =email, photo_url = ""))
+                        .set(User (uid= uid,name = username, email = email, photo_url = ""))
                         .addOnSuccessListener {
                             Log.d("REGISTER","Successfully Register ")
 
@@ -94,8 +98,8 @@ class MainActivity : AppCompatActivity(), IAuthentication {
     }
 
     override fun loginUser(v: View) {
-        val email = v.findViewById<EditText>(R.id.fragLogin_email_et).text.toString()
-        val password = v.findViewById<EditText>(R.id.fragLogin_password_et).text.toString()
+        email = v.findViewById<EditText>(R.id.fragLogin_email_et).text.toString()
+        password = v.findViewById<EditText>(R.id.fragLogin_password_et).text.toString()
 
         if (authenticateUser(email, password)){
             launchHomeActivity()
@@ -125,20 +129,15 @@ class MainActivity : AppCompatActivity(), IAuthentication {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful){
                     Log.d("LOGIN", "signInWithEmail:success")
-                    val user = auth.currentUser
 
-                    // Storing data into SharedPreferences
-                    //val sharedPreferences = getSharedPreferences("AppSharedPref", MODE_PRIVATE)
-                    // Creating an Editor object to edit(write to the file)
+                    val a = auth.currentUser
+
                     val myEdit = sharedPreferences.edit()
-                    // Storing the key and its value as the data fetched from edittext
-                    myEdit.putString("user_email", email);
-                    myEdit.putString("user_password", password);
+                    myEdit.putString("user_email", "");
+                    myEdit.putString("user_password", "");
+                    myEdit.putString("user_obj",Gson().toJson(auth.currentUser?.uid?.let { User(it, username, email,"") }))
                     myEdit.commit()
-                    //launchHomeActivity()
-/*                    val intent = Intent(this@MainActivity, HomeActivity::class.java)
-                    intent.putExtra("user",user)
-                    startActivity(intent)*/
+
                 }
                 else {
                     Log.d("LOGIN", "signInWithEmail:failure", task.exception)

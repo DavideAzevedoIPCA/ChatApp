@@ -20,7 +20,7 @@
 
     <TextView
         android:id="@+id/convLayoutItem_messageDate_textView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:textSize="10sp"

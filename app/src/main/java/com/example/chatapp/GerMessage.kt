@@ -14,9 +14,14 @@ import java.sql.Date
 class GerMessage {
     val db = FirebaseFirestore.getInstance()
 
-    fun setMessage(message: Message): Boolean{
+    fun setMessage(message: Message): String{
 
-        return true
+        val docRef = db.collection("messages").document()
+        message.id =  docRef.id
+        message.state = MessageState.SENDED
+        docRef.set(message)
+
+        return  message.id
     }
 
     fun getMessages(idConv : String, dbSQLite : AppDatabase) {
@@ -62,7 +67,7 @@ class GerMessage {
 
     private fun sendMessage() {
         Log.d("sender", "Broadcasting message")
-        val intent = Intent("MSG")
+        val intent = Intent("MSGS")
         // You can also include some extra data.
         intent.putExtra("action", "GET_MSG")
         val context = MyApplication.applicationContext()

@@ -14,6 +14,9 @@ interface UserDao {
     @Query("SELECT * FROM users WHERE uid = :uid")
     fun findById(uid : String) : User
 
+    @Query("SELECT * FROM users WHERE uid IN (:uids)")
+    fun getByIN(uids : List<String>) : List<User>
+
     @Insert
     fun insertUser(user: User)
 

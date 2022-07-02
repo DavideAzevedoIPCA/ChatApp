@@ -70,11 +70,9 @@ class HomeActivity : AppCompatActivity() {
             loadData() //faz loading dos dados do firestore para SQLite
         }
         else{
-        user = User()
-            var jsonString : String? = sharedPreferences.getString("user_obj","{}")
+            user = User()
             user = Gson().fromJson(sharedPreferences.getString("user_obj","{}"),User::class.java)
         }
-
 
         launchFragment(this.findViewById(android.R.id.content))
     }

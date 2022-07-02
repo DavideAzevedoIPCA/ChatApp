@@ -24,18 +24,19 @@ data class Message(
         this.sendAt = (objMap["sendAt"] as Timestamp).toDate()
         this.text = objMap["text"].toString()
         this.media_url = objMap["media_url"].toString()
-        this.state = MessageState.fromInt((objMap["state"] as Long).toInt())
+        this.state = MessageState.fromString((objMap["state"].toString()))
+        //this.state = MessageState.fromInt((objMap["state"] as Long).toInt())
         this.conv_uid = objMap["conv_uid"].toString()
     }
 }
 
-enum class MessageState(val value : Int) {
-    SENDED(1),
-    RECEIVED(2),
-    READED(3),
-    NONE(4);
+enum class MessageState(val value : String) {
+    SENDED("SENDED"),
+    RECEIVED("RECEIVED"),
+    READED("READED"),
+    NONE("NONE");
 
     companion object {
-        fun fromInt(value : Int) = values().first{it.value == value}
+        fun fromString(value : String) = values().first{ it.value == value }
     }
 }

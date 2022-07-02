@@ -39,6 +39,7 @@ class GerConversation {
                     return@addSnapshotListener
                 }
 
+                //TODO: validar este IF, se é necessário ou não
                 if (values != null && values.documents.isNotEmpty()){
                     Log.d("GETDATA", values.toString())
                 }
@@ -58,11 +59,11 @@ class GerConversation {
 
                     var objMap = it.get("lastMessage") as Map<String, Any>
 
-                    if (!objMap.isNullOrEmpty()){
+                    if (objMap.isNotEmpty()){
                         conversation.lastMessage?.mapMessage(objMap)
                     }
 
-                    if (!conversation.id.isNullOrEmpty())
+                    if (conversation.id.isNotEmpty())
                     {
                         if (dbSQLite.conversationDao()
                                 .findById(conversation.id) == null) {
@@ -78,7 +79,7 @@ class GerConversation {
 
     private fun sendMessage() {
         Log.d("sender", "Broadcasting message")
-        val intent = Intent("custom-event-name")
+        val intent = Intent("CONVS")
         // You can also include some extra data.
         intent.putExtra("action", "GET_CONVS")
         val context = MyApplication.applicationContext()

@@ -3,9 +3,8 @@ package com.example.chatapp.models
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.sql.Date
+import com.google.firebase.Timestamp
 import java.util.*
-
 
 @Entity(tableName = "messages")
 data class Message(
@@ -22,21 +21,22 @@ data class Message(
     fun mapMessage(objMap : Map<String, Any>){
         this.id = objMap["id"].toString()
         this.sentBy = objMap["sentBy"].toString()
-        this.sendAt = objMap["sendAt"] as Date?
+        this.sendAt = (objMap["sendAt"] as Timestamp).toDate()
         this.text = objMap["text"].toString()
         this.media_url = objMap["media_url"].toString()
-        this.state = MessageState.fromInt((objMap["state"] as Long).toInt())
+        this.state = MessageState.fromString((objMap["state"].toString()))
+        //this.state = MessageState.fromInt((objMap["state"] as Long).toInt())
         this.conv_uid = objMap["conv_uid"].toString()
     }
 }
 
-enum class MessageState(val value : Int) {
-    SENDED(1),
-    RECEIVED(2),
-    READED(3),
-    NONE(4);
+enum class MessageState(val value : String) {
+    SENDED("SENDED"),
+    RECEIVED("RECEIVED"),
+    READED("READED"),
+    NONE("NONE");
 
     companion object {
-        fun fromInt(value : Int) = values().first{it.value == value}
+        fun fromString(value : String) = values().first{ it.value == value }
     }
 }

@@ -2,13 +2,11 @@ package com.example.chatapp
 
 import androidx.room.TypeConverter
 import com.example.chatapp.models.Message
-import com.example.chatapp.models.MessageState
 import com.example.chatapp.models.User
 import com.google.common.reflect.TypeToken
 import com.google.gson.Gson
-import org.json.JSONArray
 import java.lang.reflect.Type
-import java.sql.Date
+import java.util.Date
 
 
 class Converters {

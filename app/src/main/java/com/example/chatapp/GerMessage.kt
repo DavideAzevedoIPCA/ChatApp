@@ -1,22 +1,77 @@
 package com.example.chatapp
 
+import android.content.Intent
+import android.util.Log
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.chatapp.models.Message
 import com.example.chatapp.models.MessageDao
+import com.example.chatapp.models.MessageState
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import java.sql.Date
 
 class GerMessage {
     val db = FirebaseFirestore.getInstance()
 
-    fun setMessage(message: Message): Boolean{
+    fun setMessage(message: Message): String{
 
-        return true
+        val docRef = db.collection("messages").document()
+        message.id =  docRef.id
+        message.state = MessageState.SENDED
+        docRef.set(message)
+
+        return  message.id
     }
 
-    fun getMessages(user_uid : String) : List<Message>{
-        var list : List<Message> = emptyList()
+    fun getMessages(idConv : String, dbSQLite : AppDatabase) {
 
-        return list
+        db.collection("messages")
+            .whereEqualTo("conv_uid", idConv)
+            .addSnapshotListener { values, e ->
+                if (e != null){
+                    Log.w("GETDATA", "Listen failed.", e)
+                    return@addSnapshotListener
+                }
+
+                if (values != null && values.documents.isNotEmpty()){
+                    //Talvez não seja necessário
+                }
+
+                var message : Message
+
+                values?.forEach {
+                    message = Message()
+
+                    message.mapMessage(it.data)
+
+/*                    message.id = it.id
+                    message.sentBy = it.data["sentBy"].toString()
+                    message.sendAt = (it.data["sendAt"] as Timestamp).toDate()
+                    message.text = it.data["text"].toString()
+                    message.media_url = it.data["media_url"].toString()
+                    message.state = MessageState.fromInt((it.data["state"]as Long).toInt())
+                    message.conv_uid = it.data["conv_uid"].toString()*/
+
+                    if (message.id.isNotEmpty()){
+                        if (dbSQLite.messageDao().findById(message.id) == null){
+                            dbSQLite.messageDao().insertMessage(message)
+                        } else{
+                            dbSQLite.messageDao().updateMessage(message)
+                        }
+                    }
+                }
+                sendMessage()
+            }
+    }
+
+    private fun sendMessage() {
+        Log.d("sender", "Broadcasting message")
+        val intent = Intent("MSGS")
+        // You can also include some extra data.
+        intent.putExtra("action", "GET_MSG")
+        val context = MyApplication.applicationContext()
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
     }
 
 }

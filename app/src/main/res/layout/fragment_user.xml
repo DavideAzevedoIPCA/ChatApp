@@ -21,8 +21,8 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ImageContrastCheck"
             tools:src="@drawable/unknown_person"
-            android:maxHeight="200dp"
-            android:maxWidth="200dp"
+            android:maxHeight="300dp"
+            android:maxWidth="300dp"
             android:adjustViewBounds="true"
             />
 

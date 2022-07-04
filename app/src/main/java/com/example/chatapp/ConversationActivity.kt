@@ -131,32 +131,49 @@ class ConversationActivity : AppCompatActivity() {
     }
 
     fun addMessage(view: View){
-        var message = Message("",user.uid, Date(),editTextMessage.text.toString(),"",MessageState.NONE, conversation.id)
-        editTextMessage.text?.clear()
-        message.id = gerMessage.setMessage(message, conversation)
+        if (editTextMessage.text.toString().isNotEmpty()) {
+            var message = Message(
+                "",
+                user.uid,
+                Date(),
+                editTextMessage.text.toString(),
+                "",
+                MessageState.NONE,
+                conversation.id
+            )
+            editTextMessage.text?.clear()
+            message.id = gerMessage.setMessage(message, conversation)
 
-        dbSQLite.messageDao().insertMessage(message)
-        dataMessage.add(message)
-        (recyclerView.adapter as UserConvMessageRecAdapter).refreshData(dataMessage,dataUsers)
-        recyclerView.smoothScrollToPosition(recyclerView.bottom)
+            dbSQLite.messageDao().insertMessage(message)
+            dataMessage.add(message)
+            (recyclerView.adapter as UserConvMessageRecAdapter).refreshData(dataMessage, dataUsers)
+            recyclerView.smoothScrollToPosition(recyclerView.bottom)
+        }
     }
 
     fun addMessage(view: View, uri: Uri?) {
 
-        var message = Message("",user.uid, Date(),editTextMessage.text.toString(),"",MessageState.NONE, conversation.id)
+            var message = Message(
+                "",
+                user.uid,
+                Date(),
+                editTextMessage.text.toString(),
+                "",
+                MessageState.NONE,
+                conversation.id
+            )
 
-        if (uri != null){
-            message.media_url = uri.toString()
-        }
+            if (uri != null) {
+                message.media_url = uri.toString()
+            }
 
-        editTextMessage.text?.clear()
-        message.id = gerMessage.setMessage(message, conversation)
+            editTextMessage.text?.clear()
+            message.id = gerMessage.setMessage(message, conversation)
 
-        dbSQLite.messageDao().insertMessage(message)
-        dataMessage.add(message)
-        (recyclerView.adapter as UserConvMessageRecAdapter).refreshData(dataMessage,dataUsers)
-        recyclerView.smoothScrollToPosition(recyclerView.bottom)
-
+            dbSQLite.messageDao().insertMessage(message)
+            dataMessage.add(message)
+            (recyclerView.adapter as UserConvMessageRecAdapter).refreshData(dataMessage, dataUsers)
+            recyclerView.smoothScrollToPosition(recyclerView.bottom)
     }
 
     fun openImage(view: View){

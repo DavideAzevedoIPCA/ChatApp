@@ -84,10 +84,10 @@ class UserConvMessageRecViewHolder1(itemView: View) :
 
                 if (imgFile.exists()){
                     val myBitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
-                    ivMedia?.setImageBitmap(myBitmap)
+                    ivMedia2?.setImageBitmap(myBitmap)
                 }
             }else{
-                ivMedia?.setImageBitmap(null)
+                ivMedia2?.setImageBitmap(null)
             }
 
             tvText2?.text = message.text

@@ -15,9 +15,11 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/convLayoutItem_messageDate_textView2"
         android:layout_margin="10dp"
-        android:maxHeight="200dp"
-        android:maxWidth="200dp"
+        android:maxHeight="250dp"
+        android:maxWidth="250dp"
         android:adjustViewBounds="true"
         />
 
@@ -31,6 +33,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/convLayoutItem_messageDate_textView2"
         android:textAlignment="textStart"
+        android:textColor="@color/black"
         />
 
     <TextView
@@ -40,8 +43,9 @@
         android:layout_margin="10dp"
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/convLayoutItem_messageMedia_imageView2"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:textAlignment="textStart"
+        android:textColor="@color/black"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

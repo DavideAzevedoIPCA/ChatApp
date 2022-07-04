@@ -9,11 +9,13 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.chatapp.GerConversation
 import com.example.chatapp.R
 import com.example.chatapp.adapters.ConvInfoAdapter
 import com.example.chatapp.models.Conversation
 import com.example.chatapp.models.User
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.gson.Gson
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -23,15 +25,16 @@ private const val ARG_PARAM2 = "param2"
 
 class ConversationInfoFragment : Fragment() {
     private lateinit var conversation : Conversation
-    private var name: String? = null
-    private var img: String? = null
     private var listUsers: MutableList<User> = mutableListOf()
+    private var newUserList : MutableList<String?> = mutableListOf()
+    private var currentUser: User = User()
 
     val db = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
+            currentUser = Gson().fromJson(it.getString(ARG_PARAM1), User::class.java)
             //name = it.getString(ARG_PARAM1)
             //img = it.getString(ARG_PARAM2)
         }
@@ -52,9 +55,10 @@ class ConversationInfoFragment : Fragment() {
 
         val plus_btn = view.findViewById<ImageButton>(R.id.fragConvInf_plus_bt)
 
-        val ConvInfoTitle = view.findViewById<TextView>(R.id.fragConvInf_title_tv)
+        val ConvInfoTitle = view.findViewById<TextView>(R.id.fragConvInf_title_et)
         val add_et = view.findViewById<EditText>(R.id.fragConvInf_add_et)
         val add_bt = view.findViewById<Button>(R.id.fragConvInf_add_bt)
+        val save_bt = view.findViewById<Button>(R.id.fragConvInf_save_bt)
 
         ConvInfoTitle.text = conversation.title
 
@@ -104,7 +108,6 @@ class ConversationInfoFragment : Fragment() {
                 }
 
             Log.d("New Member", new_member)
-            Log.d("Conversation info", conversation.toString())
             Log.d("Conversation id", conversation.id)
             Log.d("Conversation title", conversation.title)
             Log.d("Conversation users", conversation.users.toString())
@@ -112,7 +115,31 @@ class ConversationInfoFragment : Fragment() {
 
         }
 
+        save_bt.setOnClickListener {
 
+            val gerConversation : GerConversation = GerConversation()
+
+            var user_id : String
+
+            listUsers.forEach{
+
+                user_id = it.uid
+
+                GlobalScope.launch {
+                    newUserList.add(user_id)
+                }
+            }
+
+            GlobalScope.launch {
+                newUserList.add(currentUser.uid)
+            }
+
+            conversation.title = ConvInfoTitle.text.toString()
+            conversation.users = newUserList
+
+            gerConversation.setConversation(conversation)
+            activity?.onBackPressed();
+        }
 
         return view
     }
@@ -128,10 +155,11 @@ class ConversationInfoFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(conv: Conversation) =
+        fun newInstance(conv: Conversation, user: String) =
             ConversationInfoFragment().apply {
                 arguments = Bundle().apply {
                     conversation = conv
+                    putString(ARG_PARAM1, user)
                 }
             }
     }

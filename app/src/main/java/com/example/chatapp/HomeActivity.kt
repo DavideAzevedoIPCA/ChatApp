@@ -104,7 +104,7 @@ class HomeActivity : AppCompatActivity() {
     }
     fun launchFragmentConvInfo(view: View) {
         val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-        ft.replace(R.id.fragment_placeholder, ConversationInfoFragment.newInstance(Conversation()))
+        ft.replace(R.id.fragment_placeholder, ConversationInfoFragment.newInstance(Conversation(), Gson().toJson(user)))
         ft.commit()
     }
 

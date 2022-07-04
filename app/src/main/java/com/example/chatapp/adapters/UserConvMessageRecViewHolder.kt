@@ -1,5 +1,6 @@
 package com.example.chatapp.adapters
 
+import android.graphics.Color
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
@@ -29,9 +30,11 @@ class UserConvMessageRecViewHolder(inflater: LayoutInflater, val parent : ViewGr
         if (myUser.uid == message.sentBy){
             tvText?.textAlignment = View.TEXT_ALIGNMENT_VIEW_END
             tvDate?.textAlignment = View.TEXT_ALIGNMENT_VIEW_END
+            itemView.setBackgroundColor(Color.parseColor("#D9FDD3"))
         }else{
             tvText?.textAlignment = View.TEXT_ALIGNMENT_VIEW_START
             tvDate?.textAlignment = View.TEXT_ALIGNMENT_VIEW_START
+            itemView.setBackgroundColor(Color.parseColor("#F0F0F0"))
         }
 
         tvText?.text = message.text

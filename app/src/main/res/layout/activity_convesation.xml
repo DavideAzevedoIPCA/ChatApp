@@ -26,18 +26,32 @@
         android:inputType="text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/actConversation_send_bt"
+        app:layout_constraintEnd_toStartOf="@+id/actConversation_image_bt"
         />
+
+    <ImageButton
+        android:id="@+id/actConversation_image_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        app:srcCompat="@android:drawable/ic_menu_camera"
+        app:layout_constraintStart_toEndOf="@+id/actConversation_message_et"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/actConversation_send_bt"
+        android:onClick="openImage"
+        />
+
     <Button
         android:id="@+id/actConversation_send_bt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:text="SEND"
-        app:layout_constraintStart_toEndOf="@+id/actConversation_message_et"
+        app:layout_constraintStart_toEndOf="@+id/actConversation_image_bt"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:onClick="addMessage"
-        />
+    />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

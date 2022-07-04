@@ -20,14 +20,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ImageContrastCheck"
-            tools:src="@tools:sample/avatars" />
+            tools:src="@drawable/unknown_person"
+            android:maxHeight="200dp"
+            android:maxWidth="200dp"
+            android:adjustViewBounds="true"
+            />
 
         <EditText
             android:id="@+id/fragUserInfo_name_tx"
-            android:layout_width="300dp"
-            android:layout_height="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:textSize="15sp"
             android:ems="10"
+            android:layout_margin="20dp"
             android:inputType="textPersonName"
             android:text="Name"
             app:layout_constraintEnd_toEndOf="parent"
@@ -35,12 +40,14 @@
             app:layout_constraintTop_toBottomOf="@+id/fragUserInfo_photo_iv"
             android:layout_marginTop="25dp"
             />
-        <EditText
+
+        <TextView
             android:id="@+id/fragUserInfo_email_tx"
-            android:layout_width="300dp"
-            android:layout_height="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:textSize="15sp"
             android:ems="10"
+            android:layout_margin="20dp"
             android:inputType="textEmailAddress"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +55,7 @@
             android:layout_marginTop="25dp"
             />
 
-        <EditText
+ <!--       <EditText
             android:id="@+id/fragUserInfo_password_tx"
             android:layout_width="300dp"
             android:layout_height="40dp"
@@ -59,7 +66,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragUserInfo_email_tx"
             android:layout_marginTop="25dp"
-            />
+            />-->
 
         <Button
             android:id="@+id/fragUserInfo_save_btn"
@@ -69,7 +76,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragUserInfo_password_tx"
+            app:layout_constraintTop_toBottomOf="@+id/fragUserInfo_name_tx"
             android:layout_marginTop="25dp"
             />
 

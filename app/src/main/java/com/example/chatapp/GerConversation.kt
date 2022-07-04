@@ -16,10 +16,14 @@ class GerConversation {
 
     fun setConversation(conversation: Conversation) : Boolean{
 
+
+        val docRef = db.collection("conversations").document()
+        conversation.id = docRef.id
+        docRef.set(conversation)
         db.collection("conversations")
             .add(conversation)
             .addOnSuccessListener {
-                conversation.id = it.id
+                conversation.id = docRef.id
                 Log.d("SAVE", "Successfully:"+conversation.id)
             }
             .addOnFailureListener {

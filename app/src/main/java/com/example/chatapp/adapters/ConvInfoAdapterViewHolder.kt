@@ -7,18 +7,17 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatapp.R
+import com.example.chatapp.models.User
+
 
 class ConvInfoAdapterViewHolder(inflater: LayoutInflater, val parent: ViewGroup) :
     RecyclerView.ViewHolder(inflater.inflate(R.layout.conversation_info_item, parent, false)) {
 
-    private var tv: TextView? = itemView.findViewById(R.id.convInfItem_name_tv)
-    private var iv: ImageView? = itemView.findViewById(R.id.convInfItem_image_iv)
+    private var tvName: TextView? = itemView.findViewById(R.id.convInfItem_name_tv)
+    private var ivImage: ImageView? = itemView.findViewById(R.id.convInfItem_image_iv)
 
-    fun bindData(text: String, colorResource: Int) {
-        tv?.text = text
-        iv?.setBackgroundResource(colorResource)
-        itemView.setOnClickListener {
-            Toast.makeText(parent.context,text,Toast.LENGTH_LONG).show()
-        }
+    fun bindData(user: User) {
+        tvName?.text = user.name
+        //ivImage?.setImageURI()
     }
 }

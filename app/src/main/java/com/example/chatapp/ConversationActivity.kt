@@ -1,14 +1,18 @@
 package com.example.chatapp
 
+import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import androidx.appcompat.app.AppCompatActivity
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,9 +23,15 @@ import com.example.chatapp.models.Message
 import com.example.chatapp.models.MessageState
 import com.example.chatapp.models.User
 import com.example.chatapp.utils.InternetUtils
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
+import com.google.firebase.storage.ktx.storage
 import com.google.gson.Gson
-import java.lang.Exception
 import java.util.*
+
 
 class ConversationActivity : AppCompatActivity() {
 
@@ -35,6 +45,7 @@ class ConversationActivity : AppCompatActivity() {
     var dataUsers : MutableList<User> = emptyList<User>().toMutableList()
     private var  internetUtils : InternetUtils = InternetUtils()
     private lateinit var editTextMessage : EditText
+    var storage = Firebase.storage("gs://chatapp-d77ab.appspot.com")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +62,6 @@ class ConversationActivity : AppCompatActivity() {
 
         }
 
-
         dbSQLite = Room.databaseBuilder(
             applicationContext,
             AppDatabase::class.java,
@@ -67,6 +77,18 @@ class ConversationActivity : AppCompatActivity() {
         recyclerView.smoothScrollToPosition(recyclerView.bottom)
 
         editTextMessage = findViewById(R.id.actConversation_message_et)
+
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == 1){
+
+            uploadMedia(data?.data as Uri)
+            //addMessage(findViewById(android.R.id.content),data?.data)
+            //imageView.setImageURI(data?.data) // handle chosen image
+        }
     }
 
     // Our handler for received Intents. This will be called whenever an Intent
@@ -108,17 +130,87 @@ class ConversationActivity : AppCompatActivity() {
         }
     }
 
-    fun addMessage(view: View) {
+    fun addMessage(view: View){
+        if (editTextMessage.text.toString().isNotEmpty()) {
+            var message = Message(
+                "",
+                user.uid,
+                Date(),
+                editTextMessage.text.toString(),
+                "",
+                MessageState.NONE,
+                conversation.id
+            )
+            editTextMessage.text?.clear()
+            message.id = gerMessage.setMessage(message, conversation)
 
-        var message = Message("",user.uid, Date(),editTextMessage.text.toString(),"",MessageState.NONE, conversation.id)
-        editTextMessage.text.clear()
-        message.id = gerMessage.setMessage(message)
+            dbSQLite.messageDao().insertMessage(message)
+            dataMessage.add(message)
+            (recyclerView.adapter as UserConvMessageRecAdapter).refreshData(dataMessage, dataUsers)
+            recyclerView.smoothScrollToPosition(recyclerView.bottom)
+        }
+    }
 
-        dbSQLite.messageDao().insertMessage(message)
-        dataMessage.add(message)
-        (recyclerView.adapter as UserConvMessageRecAdapter).refreshData(dataMessage,dataUsers)
-        recyclerView.smoothScrollToPosition(recyclerView.bottom)
+    fun addMessage(view: View, uri: Uri?) {
 
+            var message = Message(
+                "",
+                user.uid,
+                Date(),
+                editTextMessage.text.toString(),
+                "",
+                MessageState.NONE,
+                conversation.id
+            )
+
+            if (uri != null) {
+                message.media_url = uri.toString()
+            }
+
+            editTextMessage.text?.clear()
+            message.id = gerMessage.setMessage(message, conversation)
+
+            dbSQLite.messageDao().insertMessage(message)
+            dataMessage.add(message)
+            (recyclerView.adapter as UserConvMessageRecAdapter).refreshData(dataMessage, dataUsers)
+            recyclerView.smoothScrollToPosition(recyclerView.bottom)
+    }
+
+    fun openImage(view: View){
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, 1)
+
+    }
+
+    fun uploadMedia(uri: Uri){
+        var nameTo = UUID.randomUUID().toString()
+        var storageRef = storage.reference
+        var imageRef : StorageReference? = storageRef.child("images/"+nameTo)
+
+        if (imageRef != null) {
+            imageRef.putFile(uri)
+                /*.addOnSuccessListener { snap ->
+                    Log.d("UPLOAD", "Sucess")
+                    Toast.makeText(this,"Success",Toast.LENGTH_LONG).show()
+                }
+                .addOnFailureListener{ e ->
+                    Log.d("UPLOAD", "Failure")
+                    Toast.makeText(this,"Failed " + e.message,Toast.LENGTH_LONG).show()
+                }*/
+                .addOnCompleteListener{ task ->
+                    if (task.isSuccessful){
+                        Log.d("UPLOAD", "Sucess")
+                        Toast.makeText(this,"Success",Toast.LENGTH_LONG).show()
+
+                        addMessage(findViewById(android.R.id.content),nameTo.toUri())
+
+                    }else{
+                        Log.d("UPLOAD", "Failure")
+                        Toast.makeText(this,"Failed " + task.toString(),Toast.LENGTH_LONG).show()
+                    }
+                }
+        }
 
     }
 }

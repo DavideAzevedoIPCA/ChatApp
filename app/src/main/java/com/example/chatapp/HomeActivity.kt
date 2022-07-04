@@ -99,7 +99,7 @@ class HomeActivity : AppCompatActivity() {
     }
     fun launchFragmentUser(view: View) {
         val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-        ft.replace(R.id.fragment_placeholder, UserFragment.newInstance("",""))
+        ft.replace(R.id.fragment_placeholder, UserFragment.newInstance(Gson().toJson(user)))
         ft.commit()
     }
     fun launchFragmentConvInfo(view: View) {
@@ -155,4 +155,5 @@ class HomeActivity : AppCompatActivity() {
         sharedPreferences.edit().putString("user_obj",Gson().toJson(user))
         sharedPreferences.edit().commit()
     }
+
 }

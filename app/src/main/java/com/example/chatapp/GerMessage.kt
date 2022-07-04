@@ -1,25 +1,44 @@
 package com.example.chatapp
 
 import android.content.Intent
+import android.os.Environment
 import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.example.chatapp.models.Conversation
 import com.example.chatapp.models.Message
 import com.example.chatapp.models.MessageDao
 import com.example.chatapp.models.MessageState
+import com.example.chatapp.utils.MediaUtils
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
+import java.io.File
 import java.sql.Date
 
 class GerMessage {
     val db = FirebaseFirestore.getInstance()
+    val storage = Firebase.storage("gs://chatapp-d77ab.appspot.com")
+    val mediaUtils : MediaUtils = MediaUtils()
 
-    fun setMessage(message: Message): String{
+    fun setMessage(message: Message,conversation: Conversation): String{
 
         val docRef = db.collection("messages").document()
         message.id =  docRef.id
         message.state = MessageState.SENDED
         docRef.set(message)
+            .addOnSuccessListener {
+                if(conversation.id.length > 0){
+                    db.collection("conversations").document(conversation.id)
+                        .update("lastMessage",message)
+                        .addOnSuccessListener {
+                            Log.d("UPDCONV", "DocumentSnapshot successfully updated!")
+                        }
+                        .addOnFailureListener{
+                            Log.d("UPDCONV", "Error updating document $conversation.id")
+                        }
+                }
+            }
 
         return  message.id
     }
@@ -45,20 +64,17 @@ class GerMessage {
 
                     message.mapMessage(it.data)
 
-/*                    message.id = it.id
-                    message.sentBy = it.data["sentBy"].toString()
-                    message.sendAt = (it.data["sendAt"] as Timestamp).toDate()
-                    message.text = it.data["text"].toString()
-                    message.media_url = it.data["media_url"].toString()
-                    message.state = MessageState.fromInt((it.data["state"]as Long).toInt())
-                    message.conv_uid = it.data["conv_uid"].toString()*/
-
                     if (message.id.isNotEmpty()){
                         if (dbSQLite.messageDao().findById(message.id) == null){
                             dbSQLite.messageDao().insertMessage(message)
                         } else{
                             dbSQLite.messageDao().updateMessage(message)
                         }
+
+                        if (message.media_url.isNotEmpty()&&message.media_url != "null"){
+                            mediaUtils.dowloadMedia(message.media_url)
+                        }
+
                     }
                 }
                 sendMessage()

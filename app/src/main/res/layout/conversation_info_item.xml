@@ -11,6 +11,8 @@
         android:id="@+id/convInfItem_image_iv"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:maxWidth="50dp"
+        android:maxHeight="50dp"
         android:layout_margin="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

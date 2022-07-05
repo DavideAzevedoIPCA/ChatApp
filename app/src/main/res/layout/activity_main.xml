@@ -8,7 +8,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:id="@+id/fragment_placeholder"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/activMain_login_bt"
@@ -20,6 +20,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_placeholder"
         app:layout_constraintEnd_toStartOf="@+id/activMain_register_bt"
         android:text="@string/fragLogin_login"
         android:onClick="launchLogin"
@@ -32,6 +33,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/activMain_login_bt"
+        app:layout_constraintTop_toBottomOf="@id/fragment_placeholder"
         android:text="@string/fragRegister_register"
         android:onClick="launchRegister"
         />

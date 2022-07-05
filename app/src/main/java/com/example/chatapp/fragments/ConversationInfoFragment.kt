@@ -10,10 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatapp.GerConversation
+import com.example.chatapp.HomeActivity
 import com.example.chatapp.R
 import com.example.chatapp.adapters.ConvInfoAdapter
 import com.example.chatapp.models.Conversation
 import com.example.chatapp.models.User
+import com.example.chatapp.utils.MediaUtils
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import kotlinx.coroutines.GlobalScope
@@ -21,15 +23,17 @@ import kotlinx.coroutines.launch
 
 
 private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 class ConversationInfoFragment : Fragment() {
     private lateinit var conversation : Conversation
     private var listUsers: MutableList<User> = mutableListOf()
     private var newUserList : MutableList<String?> = mutableListOf()
     private var currentUser: User = User()
+    private val mediaUtils : MediaUtils = MediaUtils()
 
     val db = FirebaseFirestore.getInstance()
+
+    lateinit var recyclerView : RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +50,7 @@ class ConversationInfoFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_conversation_info, container, false)
 
-        val recyclerView = view.findViewById<RecyclerView>(R.id.fragConvInf_members_rv)
+        recyclerView = view.findViewById<RecyclerView>(R.id.fragConvInf_members_rv)
 
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter= ConvInfoAdapter(listUsers)
@@ -55,17 +59,19 @@ class ConversationInfoFragment : Fragment() {
 
         val plus_btn = view.findViewById<ImageButton>(R.id.fragConvInf_plus_bt)
 
-        val ConvInfoTitle = view.findViewById<TextView>(R.id.fragConvInf_title_et)
+        val convInfoTitle = view.findViewById<TextView>(R.id.fragConvInf_title_et)
         val add_et = view.findViewById<EditText>(R.id.fragConvInf_add_et)
         val add_bt = view.findViewById<Button>(R.id.fragConvInf_add_bt)
         val save_bt = view.findViewById<Button>(R.id.fragConvInf_save_bt)
 
-        ConvInfoTitle.text = conversation.title
+        convInfoTitle.text = conversation.title
 
 
         back_btn.setOnClickListener {
-
-            activity?.onBackPressed();
+            if (activity is HomeActivity){
+                (activity as HomeActivity).launchFragment(view)
+            }
+            //activity?.onBackPressed();
             // needs bugfixing
         }
 
@@ -84,10 +90,11 @@ class ConversationInfoFragment : Fragment() {
 
         add_bt.setOnClickListener {
 
-            val new_member = add_et.text.toString()
+            var new_member = add_et.text.toString()
             db.collection("users")
                 .whereEqualTo("email", new_member)
-                .get().addOnSuccessListener { values ->
+                .get()
+                .addOnSuccessListener { values ->
                     var user : User = User()
                     values?.forEach{
                         user = User()
@@ -97,13 +104,23 @@ class ConversationInfoFragment : Fragment() {
                         user.email = it.data["email"].toString()
                         user.photo_url = it.data["photo_url"].toString()
 
-                        GlobalScope.launch {
-                            listUsers.add(user)
-                        }
-                            if(recyclerView.adapter is ConvInfoAdapter){
-                                (recyclerView.adapter as ConvInfoAdapter).refreshDate(listUsers)
-                            }
+                        if (user.photo_url.isNotEmpty())
+                            mediaUtils.dowloadMedia(user.photo_url)
 
+                        //setUserOnList(user)
+
+                        GlobalScope.launch {
+                            if (listUsers.contains(user)){
+                                //todo
+                            }else{
+                                listUsers.add(user)
+                            }
+                        }
+                        add_et.text.clear()
+
+                        if(recyclerView.adapter is ConvInfoAdapter){
+                            (recyclerView.adapter as ConvInfoAdapter).refreshDate(listUsers.toMutableList())
+                        }
                     }
                 }
 
@@ -119,26 +136,22 @@ class ConversationInfoFragment : Fragment() {
 
             val gerConversation : GerConversation = GerConversation()
 
-            var user_id : String
-
-            listUsers.forEach{
-
-                user_id = it.uid
-
-                GlobalScope.launch {
-                    newUserList.add(user_id)
-                }
+            newUserList.add(currentUser.uid)
+            for (user in listUsers){
+                newUserList.add(user.uid)
             }
 
-            GlobalScope.launch {
-                newUserList.add(currentUser.uid)
-            }
-
-            conversation.title = ConvInfoTitle.text.toString()
+            conversation.title = convInfoTitle.text.toString()
             conversation.users = newUserList
 
             gerConversation.setConversation(conversation)
-            activity?.onBackPressed();
+
+            if (activity is HomeActivity){
+                (activity as HomeActivity).launchFragment(view)
+            }
+            //if (activity is ConversationActivity){
+               // (activity as ConversationActivity).launchFragment(view)
+           // }
         }
 
         return view

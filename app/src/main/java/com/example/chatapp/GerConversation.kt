@@ -14,23 +14,18 @@ class GerConversation {
 
     val db = FirebaseFirestore.getInstance()
 
-    fun setConversation(conversation: Conversation) : Boolean{
-
+    fun setConversation(conversation: Conversation) {
 
         val docRef = db.collection("conversations").document()
         conversation.id = docRef.id
+
         docRef.set(conversation)
-        db.collection("conversations")
-            .add(conversation)
             .addOnSuccessListener {
-                conversation.id = docRef.id
                 Log.d("SAVE", "Successfully:"+conversation.id)
             }
             .addOnFailureListener {
                 Log.d("SAVE", "Unsuccessfully")
             }
-
-        return conversation.id.isNotEmpty()
     }
 
     fun getConversations(user_uid: String, dbSQLite : AppDatabase) {

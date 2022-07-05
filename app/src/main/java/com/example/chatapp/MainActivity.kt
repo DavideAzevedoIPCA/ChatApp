@@ -122,6 +122,7 @@ class MainActivity : AppCompatActivity(), IAuthentication {
         val intent = Intent(this@MainActivity, HomeActivity::class.java)
         //intent.putExtra("user",auth)
         startActivity(intent)
+        finish()
     }
 
     private fun authenticateUser(email : String, password: String) : Boolean{
